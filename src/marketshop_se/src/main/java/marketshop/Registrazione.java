@@ -1,16 +1,78 @@
 package marketshop;
 
+import com.google.common.hash.Hashing;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
-
 
 public class Registrazione extends javax.swing.JFrame {
     Dimension dimensioni = Toolkit.getDefaultToolkit().getScreenSize();
     public Registrazione() {
         initComponents();
     }
-     
+    public String getNome() {
+        return nome.getText();
+    }
+   
+    public String getCognome() {
+        return cognome.getText();
+    }
+   
+    public boolean validationDate(String nascita) {
+        nascita = birth.getText();
+        return true;
+    }
+   
+    public String getDatadn() {
+        return birth.getText();
+    }
+   
+    public String getCf() {
+       return cf.getText();
+    }
+   
+    public String getCell() {
+        return cel.getText();
+    }
+   
+    public String getUserId() {
+        return userid.getText().toLowerCase();
+    }
+   
+    public String getPasw() {
+        String pass = "";
+        char [] pwd = pasw.getPassword();
+        for(int x = 0; x < pwd.length; x++){
+            if(x == 0){
+                pass += pwd[x];
+                pwd[x] = 0;
+            }else{
+                pass += pwd[x];
+            pwd[x] = 0;
+            }
+        }
+        String enpas = Hashing.sha256().hashString(pass, StandardCharsets.UTF_8).toString();
+        return enpas;
+    }
+   
+    public String getCity() {
+        return city.getText();
+    }
+   
+    public String getCap() {
+        return cap.getText();
+    }
+   
+    public String getVia() {
+        return via.getText();
+    }
+    
+    public String getNc() {
+        return nc.getText();
+    }
+
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -20,7 +82,6 @@ public class Registrazione extends javax.swing.JFrame {
         cognome = new javax.swing.JTextField();
         birth = new javax.swing.JTextField();
         cf = new javax.swing.JTextField();
-        pasw = new javax.swing.JPasswordField();
         city = new javax.swing.JTextField();
         nome1 = new javax.swing.JLabel();
         cognome1 = new javax.swing.JLabel();
@@ -41,22 +102,20 @@ public class Registrazione extends javax.swing.JFrame {
         back = new javax.swing.JButton();
         reg = new javax.swing.JButton();
         ex = new javax.swing.JButton();
+        pasw = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(dimensioni);
         setSize(dimensioni);
-        
-        
 
         jPanel1.setAutoscrolls(true);
         jPanel1.setPreferredSize(dimensioni);
 
-    
-        
         nome1.setText("Nome");
 
         cognome1.setText("Cognome");
 
-        birth1.setText("Data di Nascita (Formato YYYY-MM-DD)");
+        birth1.setText("Data di Nascita");
 
         cf1.setText("Codice Fiscale");
 
@@ -123,16 +182,16 @@ public class Registrazione extends javax.swing.JFrame {
                     .addComponent(cognome, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(birth, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cf, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cel, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userid, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(via, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(nc1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(nc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(pasw, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(81, 81, 81))
+                    .addComponent(cel, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pasw, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userid, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(291, 291, 291))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,8 +226,8 @@ public class Registrazione extends javax.swing.JFrame {
                     .addComponent(cel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userid1))
+                    .addComponent(userid1)
+                    .addComponent(userid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pasw1)
@@ -201,7 +260,7 @@ public class Registrazione extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,14 +269,12 @@ public class Registrazione extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void exActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exActionPerformed
-        // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_exActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(() -> {
             setVisible(false);
             new Login().setVisible(true);
@@ -226,48 +283,49 @@ public class Registrazione extends javax.swing.JFrame {
     }//GEN-LAST:event_backActionPerformed
 
     private void regActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regActionPerformed
-        // TODO add your handling code here:
-    	   final String DB_URL = "jdbc:mysql://db4free.net:3306/data2018";
-		   final String USER = "fumagalli";
-		   final String PASS = "fumagalli2018";
+    {
+           final String DB_URL = "jdbc:mysql://db4free.net:3306/data2018";
+           final String USER = "fumagalli";
+           final String PASS = "fumagalli2018";
 
-	    
-		Connection conn = null;
-		 Statement stmt = null;
-		 try
-			{
-			      System.out.println("Connecting to database...");
-			      conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			      System.out.println("Creating statement...");
-			      stmt = conn.createStatement();
-			      String sql;
-			      sql = "INSERT INTO Data(Nome, Cognome, Datadn, CodFis, Cell, User, Password, Citta, CAP, Via, Civico) " 
-			    			+ "VALUES(" + "'" + getNome() + "', " + "'" + getCognome() + "', "  + "'" + getDatadn() + "', "
-			    		    + "'" + getCf() + "', " + "'" + getCell() + "', " + "'" + getUserId() + "', " 
-			    			+ "'" + getPasw().toString() + "', " + 
-				    		  "'" + getCity() + "', " + "'" + getCap() + "', " + "'" + getVia() + "', " + "'" + getNc() + "');" ;
-			      		  stmt.executeUpdate(sql);
-			      		   stmt.close();
-					       conn.close();
-			}
-    	catch(SQLException e) {
-    		e.printStackTrace();
-    	}finally{
-		      try{
-			         if(stmt!=null)
-			            stmt.close();
-			      }catch(SQLException se2){
-			      }
-			      try{
-			         if(conn!=null)
-			            conn.close();
-			      }catch(SQLException se){
-			         se.printStackTrace();
-			      }
-			   }
-			   System.out.println("Goodbye!");
-    	
-    	
+        
+        Connection conn = null;
+        Statement stmt = null;
+         try
+            {
+                  System.out.println("Connecting to database...");
+                  conn = DriverManager.getConnection(DB_URL,USER,PASS);
+                  System.out.println("Creating statement...");
+                  stmt = conn.createStatement();
+                  String sql;
+                  sql = "INSERT INTO Data(Nome, Cognome, Datadn, CodFis, Cell, User, Password, Citta, CAP, Via, Civico) " 
+                            + "VALUES(" + "'" + getNome() + "', " + "'" + getCognome() + "', "  + "'" + getDatadn() + "', "
+                            + "'" + getCf() + "', " + "'" + getCell() + "', " + "'" + getUserId() + "', " 
+                            + "'" + getPasw().toString() + "', " + 
+                              "'" + getCity() + "', " + "'" + getCap() + "', " + "'" + getVia() + "', " + "'" + getNc() + "');" ;
+                            stmt.executeUpdate(sql);
+                             stmt.close();
+                           conn.close();
+            }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }finally{
+              try{
+                     if(stmt!=null)
+                        stmt.close();
+                  }catch(SQLException se2){
+                  }
+                  try{
+                     if(conn!=null)
+                        conn.close();
+                  }catch(SQLException se){
+                     se.printStackTrace();
+                  }
+               }
+               System.out.println("Goodbye!");
+        
+        
+    }   
     }//GEN-LAST:event_regActionPerformed
 
 
@@ -300,70 +358,4 @@ public class Registrazione extends javax.swing.JFrame {
     private javax.swing.JTextField via;
     private javax.swing.JLabel via1;
     // End of variables declaration//GEN-END:variables
-    
-   public String getNome() {
-	   
-	   return nome.getText();
-   }
-   
-   public String getCognome() {
-	   return cognome.getText();
-   }
-   
-   public boolean validationDate(String nascita) {
-	   nascita = birth.getText();
-	   
-	   return true;
-   }
-   
-   public String getDatadn() {
-	   
-	   return birth.getText();
-   }
-   public String getCf() {
-	   return cf.getText();
-   }
-   
-   public String getCell() {
-	   return cel.getText();
-   }
-   
-   public String getUserId() {
-	   return userid.getText().toLowerCase();
-   }
-   
-   public String getPasw() {
-	   String pass = "";
-	   char [] pwd = pasw.getPassword();
-	   for(int x = 0; x < pwd.length; x++){
-		   if(x == 0){
-		   pass += pwd[x];
-		   pwd[x] = 0;
-		   }else{
-		   pass += pwd[x];
-		   pwd[x] = 0;
-		   }
-		   }
-	   return pass;
-   }
-   
-   public String getCity() {
-	   return city.getText();
-   }
-   
-   public String getCap() {
-		  return cap.getText();
-   }
-   
-   public String getVia() {
-	   return via.getText();
-   }
-    
-  public String getNc() {
-	   return nc.getText();
-  }
- 
-  
 }
-
-

@@ -1,8 +1,16 @@
 package marketshop;
 
+import com.google.common.hash.Hashing;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 public class Login extends javax.swing.JFrame {
@@ -10,6 +18,7 @@ public class Login extends javax.swing.JFrame {
     private String accountid; //account id
     private char[] pwd; //password utente1
     private String pass;
+    JFrame frame = new JFrame();
     public Login() {
         initComponents();
         this.accountid = accountid;
@@ -29,7 +38,8 @@ public class Login extends javax.swing.JFrame {
             pwd[x] = 0;    
             }
         }
-        return pass;
+        String enps = Hashing.sha256().hashString(pass, StandardCharsets.UTF_8).toString();
+        return enps;
     }
 
     
@@ -49,6 +59,8 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(dimensioni);
+        setSize(dimensioni);
 
         jPanel1.setToolTipText("");
         jPanel1.setAutoscrolls(true);
@@ -103,11 +115,11 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(accid, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pwds)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(exit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(exit, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(login, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(regi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(regi, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)))
                         .addGap(57, 57, 57))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -133,7 +145,7 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,8 +156,59 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-        System.out.println(getAccountId());
-        System.out.println(getPwd());
+        final String DB_URL = "jdbc:mysql://db4free.net:3306/data2018";
+        final String USER = "fumagalli";
+	final String PASS = "fumagalli2018";
+        boolean checks = false;
+        Connection conn = null;
+        Statement stmt = null;
+        try{
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();
+            String sql;
+            sql = "SELECT User, Password FROM Data";
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+		String userdb = rs.getString("User");
+		String passworddb = rs.getString("Password");
+                if(userdb.equals(getAccountId().toLowerCase()) && passworddb.equals(getPwd())){
+                    setVisible(false);
+                    java.awt.EventQueue.invokeLater(() -> {
+                        new Registrazione().setVisible(true);
+                    });
+                    checks = true;
+                }
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+            }catch (SQLException se){
+                System.out.println(se);
+            }catch(Exception e){
+		e.printStackTrace();
+            }finally{
+		try{
+		    if(stmt!=null)
+                        stmt.close();
+                }catch(SQLException se2){
+                    se2.printStackTrace();
+                }try{
+                    if(conn!=null)
+                        conn.close();
+		}catch(SQLException se){
+                    se.printStackTrace();
+                }
+            }
+        if(checks == false){
+            setVisible(false);
+            JOptionPane.showMessageDialog(frame,
+                    "Username o Password errati o non registrati.",
+                    "Data Error",
+                    JOptionPane.ERROR_MESSAGE);
+            setVisible(true);
+        }
     }//GEN-LAST:event_loginActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
