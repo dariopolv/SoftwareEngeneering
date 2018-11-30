@@ -6,9 +6,11 @@ import java.awt.Toolkit;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.JOptionPane; 
+import java.time.YearMonth;
 
 public class Registrazione extends javax.swing.JFrame {
+    int curyear = YearMonth.now().getYear();
     Dimension dimensioni = Toolkit.getDefaultToolkit().getScreenSize();
     JFrame frame = new JFrame();
     public Registrazione() {
@@ -19,7 +21,7 @@ public class Registrazione extends javax.swing.JFrame {
         for(int d = 1; d < 32; d++){
             day.add(""+d);
         }
-        for(int y = 2018; y > 1900; y--){
+        for(int y = curyear; y > 1900; y--){
             year.add(""+y);
         }
     }
@@ -34,7 +36,7 @@ public class Registrazione extends javax.swing.JFrame {
 
    
     public String getDatadn() {
-        String birth = null;
+        String birth;
         birth = ""+year.getSelectedItem()+"-"+month.getSelectedItem()+"-"+day.getSelectedItem();
         return birth;
     }
@@ -240,7 +242,7 @@ public class Registrazione extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nome1))
@@ -296,7 +298,7 @@ public class Registrazione extends javax.swing.JFrame {
                     .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(reg, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ex, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -307,7 +309,7 @@ public class Registrazione extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
         );
 
         pack();
@@ -327,11 +329,40 @@ public class Registrazione extends javax.swing.JFrame {
 
     private void regActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regActionPerformed
     {
-           final String DB_URL = "jdbc:mysql://db4free.net:3306/data2018";
-           final String USER = "fumagalli";
-           final String PASS = "fumagalli2018";
-
-        
+        final String DB_URL = "jdbc:mysql://db4free.net:3306/data2018";
+        final String USER = "fumagalli";
+        final String PASS = "fumagalli2018";
+        boolean datatrue = false;
+        int giorno = Integer.parseInt(day.getSelectedItem());
+        int mese = Integer.parseInt(month.getSelectedItem());
+        int anno = Integer.parseInt(year.getSelectedItem());
+        if(anno % 4 == 0 && anno % 100 != 0){
+            if(mese == 2){
+                if(giorno <30){
+                    datatrue = true;
+                }   
+            }
+        }else if(mese == 2){
+            if(giorno <29){
+                datatrue = true;
+            }
+        }
+        if(mese == 4 || mese == 6 || mese == 9 || mese == 11){
+            if(giorno < 31){
+                datatrue = true;
+            }
+        }else{
+            datatrue = true;
+        }
+        if(datatrue == false){
+            setVisible(false);
+            JOptionPane.showMessageDialog(frame,
+            "Errore nell'inserimento della data di nascita.\nPer proseguire correggila.",
+            "Data Error",
+            JOptionPane.ERROR_MESSAGE);
+            setVisible(true);
+        }else{
+ 
         Connection conn = null;
         Statement stmt = null;
          try
@@ -385,6 +416,7 @@ public class Registrazione extends javax.swing.JFrame {
         }
         
     }   
+    }
     }//GEN-LAST:event_regActionPerformed
 
 
