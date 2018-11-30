@@ -175,6 +175,11 @@ public class Login extends javax.swing.JFrame {
 		String passworddb = rs.getString("Password");
                 if(userdb.equals(getAccountId().toLowerCase()) && passworddb.equals(getPwd())){
                     setVisible(false);
+                    JOptionPane.showMessageDialog(frame,
+                    "Login effetuato con successo!",
+                    "Successo",
+                    JOptionPane.PLAIN_MESSAGE);
+                        setVisible(true);
                     java.awt.EventQueue.invokeLater(() -> {
                         new Registrazione().setVisible(true);
                     });

@@ -5,11 +5,23 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Registrazione extends javax.swing.JFrame {
     Dimension dimensioni = Toolkit.getDefaultToolkit().getScreenSize();
+    JFrame frame = new JFrame();
     public Registrazione() {
         initComponents();
+        for(int x = 1; x < 13; x++){
+            month.add(""+x);
+        }
+        for(int d = 1; d < 32; d++){
+            day.add(""+d);
+        }
+        for(int y = 2018; y > 1900; y--){
+            year.add(""+y);
+        }
     }
     public String getNome() {
         return nome.getText();
@@ -19,13 +31,12 @@ public class Registrazione extends javax.swing.JFrame {
         return cognome.getText();
     }
    
-    public boolean validationDate(String nascita) {
-        nascita = birth.getText();
-        return true;
-    }
+
    
     public String getDatadn() {
-        return birth.getText();
+        String birth = null;
+        birth = ""+year.getSelectedItem()+"-"+month.getSelectedItem()+"-"+day.getSelectedItem();
+        return birth;
     }
    
     public String getCf() {
@@ -80,7 +91,6 @@ public class Registrazione extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         nome = new javax.swing.JTextField();
         cognome = new javax.swing.JTextField();
-        birth = new javax.swing.JTextField();
         cf = new javax.swing.JTextField();
         city = new javax.swing.JTextField();
         nome1 = new javax.swing.JLabel();
@@ -103,6 +113,12 @@ public class Registrazione extends javax.swing.JFrame {
         reg = new javax.swing.JButton();
         ex = new javax.swing.JButton();
         pasw = new javax.swing.JPasswordField();
+        month = new java.awt.Choice();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        year = new java.awt.Choice();
+        day = new java.awt.Choice();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(dimensioni);
@@ -154,11 +170,25 @@ public class Registrazione extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("    Giorno");
+
+        jLabel2.setText("     Mese");
+
+        jLabel3.setText("    Anno");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(reg, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(ex, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cf1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -171,35 +201,41 @@ public class Registrazione extends javax.swing.JFrame {
                     .addComponent(userid1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(cap1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cap, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cognome, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(birth, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cf, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cap, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nome)
+                    .addComponent(cognome)
+                    .addComponent(cf)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(via, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(nc1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(nc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cel, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pasw, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userid, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cel)
+                    .addComponent(pasw)
+                    .addComponent(userid)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(day, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(month, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(year, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(291, 291, 291))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(reg, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addComponent(ex, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,11 +248,18 @@ public class Registrazione extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cognome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cognome1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(1, 1, 1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(3, 3, 3)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(birth1)
-                    .addComponent(birth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(day, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cf1)
                     .addComponent(cf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -293,37 +336,53 @@ public class Registrazione extends javax.swing.JFrame {
         Statement stmt = null;
          try
             {
-                  System.out.println("Connecting to database...");
+                              System.out.println("Connecting to database...");
                   conn = DriverManager.getConnection(DB_URL,USER,PASS);
                   System.out.println("Creating statement...");
                   stmt = conn.createStatement();
                   String sql;
                   sql = "INSERT INTO Data(Nome, Cognome, Datadn, CodFis, Cell, User, Password, Citta, CAP, Via, Civico) " 
-                            + "VALUES(" + "'" + getNome() + "', " + "'" + getCognome() + "', "  + "'" + getDatadn() + "', "
-                            + "'" + getCf() + "', " + "'" + getCell() + "', " + "'" + getUserId() + "', " 
-                            + "'" + getPasw().toString() + "', " + 
-                              "'" + getCity() + "', " + "'" + getCap() + "', " + "'" + getVia() + "', " + "'" + getNc() + "');" ;
-                            stmt.executeUpdate(sql);
-                             stmt.close();
-                           conn.close();
+                        + "VALUES(" + "'" + getNome() + "', " + "'" + getCognome() + "', "  + "'" + getDatadn() + "', "
+                        + "'" + getCf() + "', " + "'" + getCell() + "', " + "'" + getUserId() + "', " 
+                        + "'" + getPasw().toString() + "', " + 
+                        "'" + getCity() + "', " + "'" + getCap() + "', " + "'" + getVia() + "', " + "'" + getNc() + "');" ;
+                        stmt.executeUpdate(sql);
+                        stmt.close();
+                        conn.close();
+                        setVisible(false);
+                        JOptionPane.showMessageDialog(frame,
+                        "Registrazione effettuata con successo",
+                        "Successo",
+                        JOptionPane.PLAIN_MESSAGE);
+                        setVisible(true);
             }
         catch(SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(frame,
+            "Errore in fase di connessione",
+            "Connection Error",
+            JOptionPane.ERROR_MESSAGE);
         }finally{
-              try{
-                     if(stmt!=null)
-                        stmt.close();
-                  }catch(SQLException se2){
-                  }
-                  try{
-                     if(conn!=null)
-                        conn.close();
-                  }catch(SQLException se){
-                     se.printStackTrace();
-                  }
-               }
-               System.out.println("Goodbye!");
-        
+            try{
+                if(stmt!=null)
+                    stmt.close();
+                }catch(SQLException se2){
+                    JOptionPane.showMessageDialog(frame,
+                    "Errore in fase di connessione",
+                    "Connection Error",
+                    JOptionPane.ERROR_MESSAGE);
+                }
+            try{
+                if(conn!=null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+                JOptionPane.showMessageDialog(frame,
+                "Errore in fase di connessione",
+                "Connection Error",
+            JOptionPane.ERROR_MESSAGE);
+            }
+        }
         
     }   
     }//GEN-LAST:event_regActionPerformed
@@ -332,7 +391,6 @@ public class Registrazione extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
-    private javax.swing.JTextField birth;
     private javax.swing.JLabel birth1;
     private javax.swing.JTextField cap;
     private javax.swing.JLabel cap1;
@@ -344,8 +402,13 @@ public class Registrazione extends javax.swing.JFrame {
     private javax.swing.JLabel city1;
     private javax.swing.JTextField cognome;
     private javax.swing.JLabel cognome1;
+    private java.awt.Choice day;
     private javax.swing.JButton ex;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private java.awt.Choice month;
     private javax.swing.JTextField nc;
     private javax.swing.JLabel nc1;
     private javax.swing.JTextField nome;
@@ -357,5 +420,6 @@ public class Registrazione extends javax.swing.JFrame {
     private javax.swing.JLabel userid1;
     private javax.swing.JTextField via;
     private javax.swing.JLabel via1;
+    private java.awt.Choice year;
     // End of variables declaration//GEN-END:variables
 }
