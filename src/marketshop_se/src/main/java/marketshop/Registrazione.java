@@ -337,6 +337,7 @@ public class Registrazione extends javax.swing.JFrame {
 			final String USER = "fumagalli";
 			final String PASS = "fumagalli2018";
 			boolean datatrue = false;
+            boolean usercheck = false;
 			int giorno = Integer.parseInt(day.getSelectedItem());
 			int mese = Integer.parseInt(month.getSelectedItem());
 			int anno = Integer.parseInt(year.getSelectedItem());
@@ -409,7 +410,58 @@ public class Registrazione extends javax.swing.JFrame {
 						"Error",
 						JOptionPane.ERROR_MESSAGE);
 				setVisible(true);
-			} else {
+			} 
+
+			else if(usercheck == false) {
+
+				Connection conn = null;
+				Statement stmt = null;
+				try{
+					System.out.println("Connecting to database...");
+					conn = DriverManager.getConnection(DB_URL,USER,PASS);
+					System.out.println("Creating statement...");
+					stmt = conn.createStatement();
+					String sql;
+					sql = "SELECT User FROM Data";
+					ResultSet rs = stmt.executeQuery(sql);
+					while(rs.next()) {
+						String userdb = rs.getString("User");
+						if(userdb.equals(getUserId().toLowerCase())) {
+							setVisible(false);
+							JOptionPane.showMessageDialog(frame,
+									"Username non disponibile!",
+									"Error",
+									JOptionPane.ERROR_MESSAGE);
+							setVisible(true);
+							usercheck = false;
+						}
+						else {
+							usercheck = true;
+						}
+					}
+					rs.close();
+					stmt.close();
+					conn.close();
+				}catch (SQLException se){
+					System.out.println(se);
+				}catch(Exception e){
+					e.printStackTrace();
+				}finally{
+					try{
+						if(stmt!=null)
+							stmt.close();
+					}catch(SQLException se2){
+						se2.printStackTrace();
+					}try{
+						if(conn!=null)
+							conn.close();
+					}catch(SQLException se){
+						se.printStackTrace();
+					}
+				}
+
+			}
+                else {
 
 				Connection conn = null;
 				Statement stmt = null;
