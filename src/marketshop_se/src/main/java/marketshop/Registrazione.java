@@ -332,145 +332,117 @@ public class Registrazione extends javax.swing.JFrame {
 	}//GEN-LAST:event_backActionPerformed
 
 	private void regActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regActionPerformed
-		{
-			final String DB_URL = "jdbc:mysql://db4free.net:3306/data2018";
-			final String USER = "fumagalli";
-			final String PASS = "fumagalli2018";
-			boolean datatrue = false;
-            boolean usercheck = false;
-			int giorno = Integer.parseInt(day.getSelectedItem());
-			int mese = Integer.parseInt(month.getSelectedItem());
-			int anno = Integer.parseInt(year.getSelectedItem());
-			if(anno % 4 == 0 && anno % 100 != 0){
-				if(mese == 2){
-					if(giorno <30){
-						datatrue = true;
-					}   
-				}
-			}else if(mese == 2){
-				if(giorno <29){
+		final String DB_URL = "jdbc:mysql://db4free.net:3306/data2018";
+		final String USER = "fumagalli";
+		final String PASS = "fumagalli2018";
+		boolean datatrue = false;
+		int giorno = Integer.parseInt(day.getSelectedItem());
+		int mese = Integer.parseInt(month.getSelectedItem());
+		int anno = Integer.parseInt(year.getSelectedItem());
+		if(anno % 4 == 0 && anno % 100 != 0){
+			if(mese == 2){
+				if(giorno <30){
 					datatrue = true;
-				}
+				}   
 			}
-			if(mese == 4 || mese == 6 || mese == 9 || mese == 11){
-				if(giorno < 31){
-					datatrue = true;
-				}
-			}else if(mese == 1 || mese == 3 || mese == 5 || mese == 7 || mese == 8 || mese == 10 || mese == 12){
+		}else if(mese == 2){
+			if(giorno <29){
 				datatrue = true;
 			}
-			//cell control
-			System.out.println(getCell().length());
-			boolean cellCheck = false;	
-			if(getCell().length() < 11) {
-				cellCheck = true;
+		}
+		if(mese == 4 || mese == 6 || mese == 9 || mese == 11){
+			if(giorno < 31){
+				datatrue = true;
 			}
+		}else if(mese == 1 || mese == 3 || mese == 5 || mese == 7 || mese == 8 || mese == 10 || mese == 12){
+			datatrue = true;
+		}
+		//cell control
+		boolean cellCheck = false;	
+		if(getCell().length() < 11) {
+			cellCheck = true;
+		}
 
 
-			boolean cellCheck2 = false;
-			for(int i = 0; i < getCell().length(); i++) {
-				char c = getCell().charAt(i);
-				cellCheck2 = false;
-				switch(c) {
-				case '0': cellCheck2 = true;
-				case '1': cellCheck2 = true;
-				case '2': cellCheck2 = true;
-				case '3': cellCheck2 = true;
-				case '4': cellCheck2 = true;
-				case '5': cellCheck2 = true;
-				case '6': cellCheck2 = true;
-				case '7': cellCheck2 = true;
-				case '8': cellCheck2 = true;
-				case '9': cellCheck2 = true;
-				}
-				if(cellCheck2 == false) {
-
-					break;
-				}
+		boolean cellCheck2 = false;
+		for(int i = 0; i < getCell().length(); i++) {
+			char c = getCell().charAt(i);
+			cellCheck2 = false;
+			switch(c) {
+			case '0': cellCheck2 = true;
+			case '1': cellCheck2 = true;
+			case '2': cellCheck2 = true;
+			case '3': cellCheck2 = true;
+			case '4': cellCheck2 = true;
+			case '5': cellCheck2 = true;
+			case '6': cellCheck2 = true;
+			case '7': cellCheck2 = true;
+			case '8': cellCheck2 = true;
+			case '9': cellCheck2 = true;
 			}
-			if(datatrue == false){
-				setVisible(false);
-				JOptionPane.showMessageDialog(frame,
-						"Errore nell'inserimento della data di nascita.\nPer proseguire correggila.",
-						"Data Error",
-						JOptionPane.ERROR_MESSAGE);
-				setVisible(true);
-			}else if(cellCheck == false){
-				setVisible(false);
-				JOptionPane.showMessageDialog(frame,
-						"Lunghezza del numero di cellulare errata.",
-						"Error",
-						JOptionPane.ERROR_MESSAGE);
-				setVisible(true);
+			if(cellCheck2 == false) {
+
+				break;
 			}
-			else if(cellCheck2 == false) {
-				setVisible(false);
-				JOptionPane.showMessageDialog(frame,
-						"Inserire solo valori numerici nel campo Cellure.",
-						"Error",
-						JOptionPane.ERROR_MESSAGE);
-				setVisible(true);
-			} 
+		}
+		if(datatrue == false){
+			setVisible(false);
+			JOptionPane.showMessageDialog(frame,
+					"Errore nell'inserimento della data di nascita.\nPer proseguire correggila.",
+					"Data Error",
+					JOptionPane.ERROR_MESSAGE);
+			setVisible(true);
+		}else if(cellCheck == false){
+			setVisible(false);
+			JOptionPane.showMessageDialog(frame,
+					"Lunghezza del numero di cellulare errata.",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+			setVisible(true);
+		}
+		else if(cellCheck2 == false) {
+			setVisible(false);
+			JOptionPane.showMessageDialog(frame,
+					"Inserire solo valori numerici nel campo Cellure.",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+			setVisible(true);
+		} 
 
-			else if(usercheck == false) {
 
-				Connection conn = null;
-				Statement stmt = null;
-				try{
-					System.out.println("Connecting to database...");
-					conn = DriverManager.getConnection(DB_URL,USER,PASS);
-					System.out.println("Creating statement...");
-					stmt = conn.createStatement();
-					String sql;
-					sql = "SELECT User FROM Data";
-					ResultSet rs = stmt.executeQuery(sql);
-					while(rs.next()) {
-						String userdb = rs.getString("User");
-						if(userdb.equals(getUserId().toLowerCase())) {
-							setVisible(false);
-							JOptionPane.showMessageDialog(frame,
-									"Username non disponibile!",
-									"Error",
-									JOptionPane.ERROR_MESSAGE);
-							setVisible(true);
-							usercheck = false;
-						}
-						else {
-							usercheck = true;
-						}
-					}
-					rs.close();
-					stmt.close();
-					conn.close();
-				}catch (SQLException se){
-					System.out.println(se);
-				}catch(Exception e){
-					e.printStackTrace();
-				}finally{
-					try{
-						if(stmt!=null)
-							stmt.close();
-					}catch(SQLException se2){
-						se2.printStackTrace();
-					}try{
-						if(conn!=null)
-							conn.close();
-					}catch(SQLException se){
-						se.printStackTrace();
+
+		else  {
+
+			Connection conn = null;
+			Statement stmt = null;
+			try
+			{
+				boolean checkuser = true;
+				System.out.println("Connecting to database...");
+				conn = DriverManager.getConnection(DB_URL,USER,PASS);
+				System.out.println("Creating statement...");
+				stmt = conn.createStatement();
+				String sql_username_check;
+				sql_username_check = "SELECT User FROM Data";
+
+				ResultSet rs = stmt.executeQuery(sql_username_check);
+				while(rs.next()) {
+					String userdb = rs.getString("User");
+					if(userdb.equals(getUserId().toLowerCase())) {
+						stmt.close();
+						conn.close();
+						setVisible(false);
+						JOptionPane.showMessageDialog(frame,
+								"Username non disponibile!",
+								"Error",
+								JOptionPane.ERROR_MESSAGE);
+						setVisible(true);
+						checkuser = false;
+						break;
 					}
 				}
 
-			}
-                else {
-
-				Connection conn = null;
-				Statement stmt = null;
-				try
-				{
-					System.out.println("Connecting to database...");
-					conn = DriverManager.getConnection(DB_URL,USER,PASS);
-					System.out.println("Creating statement...");
-					stmt = conn.createStatement();
+				if(checkuser == true) {
 					String sql;
 					sql = "INSERT INTO Data(Nome, Cognome, Datadn, CodFis, Cell, User, Password, Citta, CAP, Via, Civico) " 
 							+ "VALUES(" + "'" + getNome() + "', " + "'" + getCognome() + "', "  + "'" + getDatadn() + "', "
@@ -486,38 +458,41 @@ public class Registrazione extends javax.swing.JFrame {
 							"Successo",
 							JOptionPane.PLAIN_MESSAGE);
 					setVisible(true);
+
 				}
-				catch(SQLException e) {
-					e.printStackTrace();
+			}
+
+			catch(SQLException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(frame,
+						"Errore in fase di connessione1",
+						"Connection Error",
+						JOptionPane.ERROR_MESSAGE);
+			}finally{
+				try{
+					if(stmt!=null)
+						stmt.close();
+				}catch(SQLException se2){
 					JOptionPane.showMessageDialog(frame,
-							"Errore in fase di connessione",
+							"Errore in fase di connessione2",
 							"Connection Error",
 							JOptionPane.ERROR_MESSAGE);
-				}finally{
-					try{
-						if(stmt!=null)
-							stmt.close();
-					}catch(SQLException se2){
-						JOptionPane.showMessageDialog(frame,
-								"Errore in fase di connessione",
-								"Connection Error",
-								JOptionPane.ERROR_MESSAGE);
-					}
-					try{
-						if(conn!=null)
-							conn.close();
-					}catch(SQLException se){
-						se.printStackTrace();
-						JOptionPane.showMessageDialog(frame,
-								"Errore in fase di connessione",
-								"Connection Error",
-								JOptionPane.ERROR_MESSAGE);
-					}
 				}
-
-			}   
+				try{
+					if(conn!=null)
+						conn.close();
+				}catch(SQLException se){
+					se.printStackTrace();
+					JOptionPane.showMessageDialog(frame,
+							"Errore in fase di connessione3",
+							"Connection Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		}
-	}//GEN-LAST:event_regActionPerformed
+	}
+
+	//GEN-LAST:event_regActionPerformed
 
 
 
