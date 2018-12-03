@@ -97,6 +97,10 @@ public class Registrazione extends javax.swing.JFrame {
 	return caps;
     }
 
+    public String getCapString() {
+    return cap.getText();
+    }
+
     
     public String getVia() {
 	return via.getText();
