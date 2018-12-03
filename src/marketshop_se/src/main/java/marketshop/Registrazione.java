@@ -112,6 +112,10 @@ public class Registrazione extends javax.swing.JFrame {
         nuc = Integer.parseInt(nc.getText());
 	return nuc;
     }
+    
+    public String getNcString(){
+        return nc.getText();
+    }
 
 
     @SuppressWarnings("unchecked")
@@ -395,17 +399,8 @@ public class Registrazione extends javax.swing.JFrame {
             for(int i = 0; i < getCell().length(); i++) {
 		char c = getCell().charAt(i);
                 cellCheck2 = false;
-                switch(c) {
-                    case '0': cellCheck2 = true;
-                    case '1': cellCheck2 = true;
-                    case '2': cellCheck2 = true;
-                    case '3': cellCheck2 = true;
-                    case '4': cellCheck2 = true;
-                    case '5': cellCheck2 = true;
-                    case '6': cellCheck2 = true;
-                    case '7': cellCheck2 = true;
-                    case '8': cellCheck2 = true;
-                    case '9': cellCheck2 = true;
+                if(Character.isDigit(c)){
+                    cellCheck2 = true;
                 }
                 if(cellCheck2 == false) {
                     break;
@@ -425,13 +420,12 @@ public class Registrazione extends javax.swing.JFrame {
             // Name Character Control End
             
             // Surname Character Control
-            boolean surnamecheck = false;
+            boolean surnamecheck = true;
             for(int i = 0; i < getCognome().length(); i++) {
 		char c = getCognome().charAt(i);
-                surnamecheck = false;
-                if(Character.isLetter(c)){
-                    surnamecheck = true;
-		}
+                if(!Character.isLetter(c) && c!='\'' && c!=' '){
+                    surnamecheck = false;
+                }
             }
             // Surname Character Control End
             
@@ -448,7 +442,7 @@ public class Registrazione extends javax.swing.JFrame {
             if(cfcheck){
                 for( v = 0; v < 16; v++ ){
                     c = cf2.charAt(v);
-                    if( ! ( c >= '0' && c <= '9' || c >= 'A' && c <= 'Z' ) )
+                    if( ! ( Character.isDigit(c) || Character.isLetter(c) ) )
                         cfcheck2 = false;
                 }
             }
@@ -456,14 +450,14 @@ public class Registrazione extends javax.swing.JFrame {
                 s = 0;
                 for( v = 1; v <= 13; v += 2 ){
                     c = cf2.charAt(v);
-                    if( c >= '0' && c <= '9' )
+                    if( Character.isDigit(c) )
                         s = s + c - '0';
                     else
                         s = s + c - 'A';
                 }
                 for( v = 0; v <= 14; v += 2 ){
                     c = cf2.charAt(v);
-                    if( c >= '0' && c <= '9' )	 
+                    if( Character.isDigit(c) )	 
                         c = c - '0' + 'A';
                     s = s + setdisp[c - 'A'];
                 }
@@ -486,49 +480,73 @@ public class Registrazione extends javax.swing.JFrame {
             }
             //Password Empty Control End
             
-            //City Control 
+            // City Control 
             boolean citycontrol = true;
             if(getCity().isEmpty()) {
             	citycontrol = false;
             }
             for(int i = 0; i < getCity().length(); i++) {
-        		char city = getCity().charAt(i);
-                        citycontrol = false;
-                        if(Character.isLetter(city)){
-                            citycontrol = true;
-        		}
-                    }
-            //City Control End
+                char city = getCity().charAt(i);
+                citycontrol = false;
+                if(Character.isLetter(city)){
+                    citycontrol = true;
+        	}
+            }
+            // City Control End
             
-            //CAP Control
+            // CAP Control
             boolean capcontrol = true;
             boolean lengthcap = true;
             if(getCapString().isEmpty()) {
             	capcontrol = false;
             }
     	    for(int i = 0; i < getCapString().length(); i++) {
-    			char car = getCapString().charAt(i);
-    	                capcontrol = false;
-    	                switch(car) {
-    	                    case '0': capcontrol = true;
-    	                    case '1': capcontrol = true;
-    	                    case '2': capcontrol = true;
-    	                    case '3': capcontrol = true;
-    	                    case '4': capcontrol = true;
-    	                    case '5': capcontrol = true;
-    	                    case '6': capcontrol = true;
-    	                    case '7': capcontrol = true;
-    	                    case '8': capcontrol = true;
-    	                    case '9': capcontrol = true;
-    	                }
-    	                if(capcontrol == false) {
-    	                    break;
-    	                }
+    		char car = getCapString().charAt(i);
+    	        capcontrol = false;
+                if(Character.isDigit(car)){
+                    capcontrol = true;
+                }
+                if(capcontrol == false) {
+    	            break;
+    	        }
     	    }
             if(getCapString().length() != 5) {
             	lengthcap = false;
             }
-            //CAP Control End            
+            // CAP Control End 
+            
+            // Via Control
+            boolean viacheck = true;
+            if(getVia().isEmpty())
+                viacheck = false;
+            for(int i = 0; i < getVia().length(); i++) {
+		char y = getVia().charAt(i);
+                if(!Character.isLetter(y) && y != '\'' && y != ' ' && y != '.' && y != '°' && !Character.isDigit(y)){
+                    viacheck = false;
+                }
+            }
+            // Via Control End
+            
+            // House Number Control
+            boolean nccontrol = true;
+            boolean lengthnc = true;
+            if(getNcString().isEmpty()) {
+            	nccontrol = false;
+            }
+    	    for(int i = 0; i < getNcString().length(); i++) {
+    		char numc = getNcString().charAt(i);
+    	        nccontrol = false;
+                if(Character.isDigit(numc)){
+                    nccontrol = true;
+                }
+                if(nccontrol == false) {
+    	            break;
+    	        }
+    	    }
+            if(getNcString().length() > 5) {
+            	lengthnc = false;
+            }
+            // House Number Control End 
             
             // Control Implementation
             if(datatrue == false){
@@ -541,14 +559,14 @@ public class Registrazione extends javax.swing.JFrame {
             }else if(namecheck == false){
                 setVisible(false);
                 JOptionPane.showMessageDialog(frame,
-                "Nel nome sono ammessi solo caratteri alfabetici e non può essere vuoto.",
+                "Nel campo nome sono ammessi solo caratteri alfabetici e non può essere vuoto.",
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
                 setVisible(true);
             }else if(surnamecheck == false){
                 setVisible(false);
                 JOptionPane.showMessageDialog(frame,
-                "Nel cognome sono ammessi solo caratteri alfabetici e non può essere vuoto.",
+                "Nel campo cognome sono ammessi solo caratteri alfabetici e non può essere vuoto.",
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
                 setVisible(true);
@@ -580,56 +598,71 @@ public class Registrazione extends javax.swing.JFrame {
 		"Error",
 		JOptionPane.ERROR_MESSAGE);
 		setVisible(true);
-            }
-            else if(cellCheck2 == false) {
+            }else if(cellCheck2 == false) {
 		setVisible(false);
 		JOptionPane.showMessageDialog(frame,
 		"Inserire solo valori numerici nel campo Cellure.",
 		"Error",
 		JOptionPane.ERROR_MESSAGE);
 		setVisible(true);
-            }
-            else if(usercontrol == false) {
-        setVisible(false);
-        JOptionPane.showMessageDialog(frame,
-        "Il campo Username non può essere vuoto.",
-        "Error",
-        JOptionPane.ERROR_MESSAGE);
-        setVisible(true);     
-            }
-            else if(pswdcontrol == false) {
-        setVisible(false);
-        JOptionPane.showMessageDialog(frame,
-        "Il campo Password non può essere vuoto.",
-        "Error",
-        JOptionPane.ERROR_MESSAGE);
-        setVisible(true);    	
-            }
-            else if(citycontrol == false) {
-        setVisible(false);
-        JOptionPane.showMessageDialog(frame,
-        "Il campo Città non può essere vuoto e non può contenere valori numerici.",
-        "Error",
-        JOptionPane.ERROR_MESSAGE);
-        setVisible(true);      	
-            }
-            else if(capcontrol == false) {
-        setVisible(false);
-        JOptionPane.showMessageDialog(frame,
-        "Il campo CAP non può essere vuoto e non può contenere lettere dell'alfabeto.",
-        "Error",
-        JOptionPane.ERROR_MESSAGE);
-        setVisible(true);  	
-            }
-            else if(lengthcap == false) {
-        setVisible(false);
-        JOptionPane.showMessageDialog(frame,
-        "Il campo CAP deve essere di 5 cifre.",
-        "Error",
-        JOptionPane.ERROR_MESSAGE);
-        setVisible(true); 	
+            }else if(usercontrol == false) {
+                setVisible(false);
+                JOptionPane.showMessageDialog(frame,
+                "Il campo Username non può essere vuoto.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+                setVisible(true);     
+            }else if(pswdcontrol == false) {
+                setVisible(false);
+                JOptionPane.showMessageDialog(frame,
+                "Il campo Password non può essere vuoto.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+                setVisible(true);    	
+            }else if(citycontrol == false) {
+                setVisible(false);
+                JOptionPane.showMessageDialog(frame,
+                "Il campo Città non può essere vuoto e non può contenere valori numerici.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+                setVisible(true);      	
+            }else if(capcontrol == false) {
+                setVisible(false);
+                JOptionPane.showMessageDialog(frame,
+                "Il campo CAP non può essere vuoto e non può contenere caratteri alfabetici.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+                setVisible(true);  	
+            }else if(lengthcap == false) {
+                setVisible(false);
+                JOptionPane.showMessageDialog(frame,
+                "Il campo CAP deve essere di 5 cifre.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+                setVisible(true); 	
+            }else if(viacheck == false){
+                setVisible(false);
+                JOptionPane.showMessageDialog(frame,
+                "Il campo via non può essere vuoto o non può contenere alcuni dei caratteri inseriti.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+                setVisible(true);
+            }else if(nccontrol == false) {
+                setVisible(false);
+                JOptionPane.showMessageDialog(frame,
+                "Il campo Numero Civico non può essere vuoto e non può contenere caratteri alfabetici.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+                setVisible(true);  	
+            }else if(lengthnc == false) {
+                setVisible(false);
+                JOptionPane.showMessageDialog(frame,
+                "Il campo Numero Civico è troppo grande per essere reale.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+                setVisible(true); 	
             }else{
-        Connection conn = null;
+                Connection conn = null;
 		Statement stmt = null;
 		try{
                     boolean checkuser = true;
