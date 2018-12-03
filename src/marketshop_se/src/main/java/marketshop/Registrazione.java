@@ -64,7 +64,10 @@ public class Registrazione extends javax.swing.JFrame {
     public String getUserId() {
 	return userid.getText().toLowerCase();
     }
-
+    
+    public String getPassword() {
+    	return pasw.getText();
+    }
 
     public String getPasw() {
 	String pass = "";
@@ -465,6 +468,64 @@ public class Registrazione extends javax.swing.JFrame {
             }
             // Fiscal Code Control End
             
+            //Username Empty Control 
+            boolean usercontrol = true;
+            if(getUserId().isEmpty()) {
+            	usercontrol = false;
+            }
+            //Username Empty Control End
+            
+            //Password Empty Control 
+            boolean pswdcontrol = true;
+            if(getPassword().isEmpty()) {
+            	pswdcontrol = false;
+            }
+            //Password Empty Control End
+            
+            //City Control 
+            boolean citycontrol = true;
+            if(getCity().isEmpty()) {
+            	citycontrol = false;
+            }
+            for(int i = 0; i < getCity().length(); i++) {
+        		char city = getCity().charAt(i);
+                        citycontrol = false;
+                        if(Character.isLetter(city)){
+                            citycontrol = true;
+        		}
+                    }
+            //City Control End
+            
+            //CAP Control
+            boolean capcontrol = true;
+            boolean lengthcap = true;
+            if(getCapString().isEmpty()) {
+            	capcontrol = false;
+            }
+    	    for(int i = 0; i < getCapString().length(); i++) {
+    			char car = getCapString().charAt(i);
+    	                capcontrol = false;
+    	                switch(car) {
+    	                    case '0': capcontrol = true;
+    	                    case '1': capcontrol = true;
+    	                    case '2': capcontrol = true;
+    	                    case '3': capcontrol = true;
+    	                    case '4': capcontrol = true;
+    	                    case '5': capcontrol = true;
+    	                    case '6': capcontrol = true;
+    	                    case '7': capcontrol = true;
+    	                    case '8': capcontrol = true;
+    	                    case '9': capcontrol = true;
+    	                }
+    	                if(capcontrol == false) {
+    	                    break;
+    	                }
+    	    }
+            if(getCapString().length() != 5) {
+            	lengthcap = false;
+            }
+            //CAP Control End            
+            
             // Control Implementation
             if(datatrue == false){
 		setVisible(false);
@@ -523,8 +584,48 @@ public class Registrazione extends javax.swing.JFrame {
 		"Error",
 		JOptionPane.ERROR_MESSAGE);
 		setVisible(true);
+            }
+            else if(usercontrol == false) {
+        setVisible(false);
+        JOptionPane.showMessageDialog(frame,
+        "Il campo Username non può essere vuoto.",
+        "Error",
+        JOptionPane.ERROR_MESSAGE);
+        setVisible(true);     
+            }
+            else if(pswdcontrol == false) {
+        setVisible(false);
+        JOptionPane.showMessageDialog(frame,
+        "Il campo Password non può essere vuoto.",
+        "Error",
+        JOptionPane.ERROR_MESSAGE);
+        setVisible(true);    	
+            }
+            else if(citycontrol == false) {
+        setVisible(false);
+        JOptionPane.showMessageDialog(frame,
+        "Il campo Città non può essere vuoto e non può contenere valori numerici.",
+        "Error",
+        JOptionPane.ERROR_MESSAGE);
+        setVisible(true);      	
+            }
+            else if(capcontrol == false) {
+        setVisible(false);
+        JOptionPane.showMessageDialog(frame,
+        "Il campo CAP non può essere vuoto e non può contenere lettere dell'alfabeto.",
+        "Error",
+        JOptionPane.ERROR_MESSAGE);
+        setVisible(true);  	
+            }
+            else if(lengthcap == false) {
+        setVisible(false);
+        JOptionPane.showMessageDialog(frame,
+        "Il campo CAP deve essere di 5 cifre.",
+        "Error",
+        JOptionPane.ERROR_MESSAGE);
+        setVisible(true); 	
             }else{
-                Connection conn = null;
+        Connection conn = null;
 		Statement stmt = null;
 		try{
                     boolean checkuser = true;
