@@ -179,7 +179,6 @@ public class Login extends javax.swing.JFrame {
                     "Login effetuato con successo!",
                     "Successo",
                     JOptionPane.PLAIN_MESSAGE);
-                        setVisible(true);
                     java.awt.EventQueue.invokeLater(() -> {
                         new Registrazione().setVisible(true);
                     });
